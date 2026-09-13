@@ -1,41 +1,2680 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
+
 <head>
-  <title>AHAX APP </title>
- <style>
-    body {
-        margin: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ANAX APP</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: black;
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* -------------------- */
+        /* ОБЩИЕ ЭКРАНЫ */
+        /* -------------------- */
+
+        .screen {
+            position: absolute;
+            inset: 0;
+        }
+
+        .screen > img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+
+        /* -------------------- */
+        /* ВРАТА */
+        /* -------------------- */
+#gateStartButton {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8%;
+
+    transform: translateX(-50%);
+
+    width: 220px;
+    height: 65px;
+
+    border: 2px solid #d7a84b;
+    border-radius: 8px;
+
+    background: rgba(30, 10, 10, 0.88);
+
+    color: #f8d98d;
+    font-size: 28px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    box-shadow:
+        0 0 15px rgba(255, 100, 40, 0.35),
+        inset 0 0 15px rgba(255, 150, 60, 0.12);
+}
+        #gatesScreen {
+            display: block;
+            background: black;
+        }
+
+        #enterButton {
+            position: absolute;
+
+            left: 50%;
+            top: 82%;
+
+            transform: translate(-50%, -50%);
+
+            width: 260px;
+            height: 65px;
+
+            border: 2px solid #d8a84e;
+            border-radius: 10px;
+
+            background: rgba(45, 5, 5, 0.9);
+
+            color: white;
+
+            font-size: 26px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 0 10px #ff9b38,
+                0 0 25px rgba(255, 80, 20, 0.7);
+
+            transition: 0.25s;
+
+            z-index: 5;
+        }
+
+        #enterButton:active {
+            transform:
+                translate(-50%, -50%)
+                scale(0.95);
+        }
+
+
+        /* -------------------- */
+        /* ВСПЫШКА */
+        /* -------------------- */
+
+        #flash {
+            position: fixed;
+
+            inset: 0;
+
+            background: white;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: opacity 0.7s;
+
+            z-index: 50;
+        }
+
+        #flash.active {
+            opacity: 1;
+        }
+
+
+        /* -------------------- */
+        /* ЛОББИ */
+        /* -------------------- */
+
+        #lobbyScreen {
+            display: none;
+            background: black;
+
+            opacity: 0;
+
+            transition: opacity 1.2s;
+        }
+
+        #lobbyScreen.show {
+            opacity: 1;
+        }
+.petalsLayer {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    z-index: 15;
+}
+#lobbyScreen > img {
+    position: relative;
+    z-index: 1;
+}
+
+#lobbyPetals {
+    z-index: 15;
+}
+/* ИНТЕРФЕЙС ЛОББИ ПОВЕРХ ЛЕПЕСТКОВ */
+#lobbyScreen button {
+    position: relative;
+    z-index: 30;
+}
+        /* -------------------- */
+        /* АВАТАР */
+        /* -------------------- */
+
+        #avatarFrame {
+    position: absolute;
+
+    left: 9.6%;
+    top: 0.1%;
+
+    width: 5.4%;
+    height: 0;
+    padding-bottom: 5.4%;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    z-index: 20;
+}
+
+#avatar {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+        #profileWindow {
+    display: none;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 70%;
+    max-width: 720px;
+
+    padding: 24px;
+
+    background: rgba(20, 15, 20, 0.98);
+
+    border: 2px solid #d99a3c;
+    border-radius: 18px;
+
+    color: white;
+
+    z-index: 10000;
+}
+
+#closeProfile {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#profileTitle {
+    font-size: 26px;
+    font-weight: bold;
+    color: #f0bd62;
+    margin-bottom: 20px;
+}
+
+#profileTop {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+#profileAvatarFrame {
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #d99a3c;
+    flex-shrink: 0;
+}
+
+#profileAvatarImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#profileStats {
+    flex: 1;
+}
+
+.profileStat {
+    font-size: 18px;
+    margin-bottom: 9px;
+}
+
+#difficultyBar {
+    width: 100%;
+    height: 12px;
+    background: #303038;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#difficultyFill {
+    width: 0%;
+    height: 100%;
+
+    border-radius: 20px;
+
+    transition:
+        width 0.6s ease,
+        background 0.4s ease;
+}
+
+#profileButtons {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+#profileButtons button {
+    flex: 1;
+    padding: 11px;
+    border: 1px solid #d99a3c;
+    border-radius: 9px;
+    background: rgba(110, 35, 30, 0.85);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profileSectionTitle {
+    color: #f0bd62;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#avatarCollectionGrid,
+#medalGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.avatarSlot,
+.medalSlot {
+    width: 58px;
+    height: 58px;
+    border: 1px solid #9a6634;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatarSlot {
+    border-radius: 10px;
+}
+
+.medalSlot {
+    border-radius: 50%;
+    color: #d9a45c;
+    font-weight: bold;
+}
+
+.avatarSlot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lockedAvatar {
+    opacity: 0.45;
+    font-size: 25px;
+}
+
+        /* -------------------- */
+        /* УРОВЕНЬ */
+        /* -------------------- */
+
+        #levelLabel {
+    position: absolute;
+
+    left: 17.0%;
+    top: 2.5%;
+
+    color: white;
+    font-size: clamp(13px, 1.4vw, 23px);
+    font-weight: bold;
+
+    text-shadow: 0 0 6px black;
+
+    z-index: 10;
+}
+
+#levelNumber {
+    position: absolute;
+
+    left: 20.2%;
+    top: 2.5%;
+
+    color: #ffd86a;
+    font-size: clamp(15px, 1.6vw, 26px);
+    font-weight: bold;
+
+    text-shadow: 0 0 6px black;
+
+    z-index: 10;
+}
+
+
+        /* -------------------- */
+        /* ОПЫТ */
+        /* -------------------- */
+
+        #xpBar {
+    position: absolute;
+
+    left: 16.5%;
+    top: 6.0%;
+
+    width: 8.2%;
+    height: 1%;
+
+    background: #555;
+    border-radius: 20px;
+
+    overflow: hidden;
+    z-index: 10;
+}
+
+#xpFill {
+    width: 0%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #8f5a12,
+        #d99a25,
+        #ffd86a
+    );
+
+    border-radius: 20px;
+
+    transition: width 1s ease;
+}
+
+
+        /* -------------------- */
+        /* СЭНЫ */
+        /* -------------------- */
+
+        #senAmount {
+            position: absolute;
+
+            left: 34.5%;
+            top: 1.8%;
+
+            color: #ffd77a;
+
+            font-size: clamp(13px, 1.7vw, 25px);
+            font-weight: bold;text-shadow: 0 0 5px black;
+
+            z-index: 10;
+        }
+
+        /* -------------------- */
+/* КРЕДИТЫ */
+/* -------------------- */
+
+#creditAmount {
+    position: absolute;
+
+    left: 53%;
+    top: 1.7%;
+
+    color: #8feaff;
+
+    font-size: clamp(13px, 1.7vw, 25px);
+    font-weight: bold;
+
+    text-shadow: 0 0 5px black;
+
+    z-index: 10;
+}
+
+        /* -------------------- */
+        /* АСТРАЛЫ */
+        /* -------------------- */
+
+        #astralAmount {
+            position: absolute;
+
+            left: 68.5%;
+            top: 1.7%;
+
+            color: #ffb382;
+
+            font-size: clamp(13px, 1.7vw, 25px);
+            font-weight: bold;
+
+            text-shadow: 0 0 5px black;
+
+            z-index: 10;
+        }
+
+
+        /* -------------------- */
+        /* НЕВИДИМАЯ КНОПКА */
+        /* ТУРНИРА */
+        /* -------------------- */
+
+        #tournamentButton {
+            position: absolute;
+
+            left: 80%;
+            top: 55%;
+
+            width: 19%;
+            height: 40%;
+
+            border: 0;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            z-index: 20;
+        }
+
+/* ========================= */
+/* НАСТРОЙКИ */
+/* ========================= */
+
+/* НЕВИДИМАЯ КНОПКА НА ШЕСТЕРЁНКЕ ЛОББИ */
+
+#settingsButton {
+    position: absolute;
+
+    top: 1%;
+    left: 89%;
+
+    width: 7%;
+    height: 10%;
+
+    opacity: 0;
+    background: transparent;
+    border: none;
+
+    cursor: pointer;
+    z-index: 999;
+}
+
+#settingsWindow {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.18),
+            rgba(0, 0, 0, 0.30)
+        ),
+        url("settings.png") center / cover no-repeat;
+
+    z-index: 90;
+
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+
+    overflow: hidden;
+}
+
+#settingsWindow.show {
+    transform: translateX(0);
+}
+
+#settingsWindow.show {
+    transform: translateX(0);
+}
+
+
+#closeSettings {
+    position: absolute;
+
+    top: 30px;
+    left: 30px;
+
+    z-index: 5;
+
+    padding: 12px 22px;
+
+    border: 1px solid #d8a84e;
+    border-radius: 8px;
+
+    background: rgba(15, 10, 10, 0.85);
+
+    color: #f7d998;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.settingsPanel {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(520px, 82vw);
+
+    padding: 30px;
+
+    background: rgba(10, 8, 8, 0.82);
+
+    border: 1px solid rgba(225, 175, 80, 0.75);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 40px rgba(0, 0, 0, 0.7);
+
+    backdrop-filter: blur(8px);
+}
+
+
+.settingsPanel h2 {
+    margin: 0 0 25px;
+
+    text-align: center;
+
+    color: #f2d399;
+
+    letter-spacing: 3px;
+}
+
+
+.settingRow {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin: 15px 0;
+
+    padding: 15px 18px;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    border: 1px solid rgba(255, 210, 120, 0.22);
+
+    border-radius: 10px;
+
+    color: white;
+
+    font-size: 18px;
+}
+
+
+.settingToggle {
+    min-width: 70px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #d9a947;
+
+    border-radius: 7px;
+
+    background: #291c10;
+
+    color: #ffd987;
+
+    cursor: pointer;
+}
+
+
+.volumeRow {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+
+#volumeSlider {
+    width: 100%;
+}
+/* ========================= */
+/* ЛЕПЕСТКИ САКУРЫ */
+/* ========================= */
+
+.petalsLayer {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    z-index: 15;
+}
+
+.petal {
+    position: absolute;
+
+    top: -8%;
+
+    width: 12px;
+    height: 8px;
+
+    background: #ff9fbd;
+
+    border-radius:
+        70% 30% 70% 30%;
+
+    opacity: 0.85;
+
+    animation:
+        petalFall linear forwards;
+}
+
+@keyframes petalFall {
+
+    0% {
+        transform:
+            translate3d(0, -10vh, 0)
+            rotate(0deg);
     }
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+
+    100% {
+        transform:
+            translate3d(var(--wind), 115vh, 0)
+            rotate(720deg);
     }
-    button {
-        position: absolute;
-        left: 20px;
-        top: 220px;
+}
 
-        width: 130px;
-        height: 48px;
+body.animationsOff .petalsLayer {
+    display: none;
+}
+        /* -------------------- */
+        /* ОКНА */
+        /* -------------------- */
 
-        background: rgba(15, 15, 20, 0.75);
-        color: white;
+        .popup {
+            display: none;
 
-        border: 1px; solid #d8a84e;
-        border-radius: 8px;
+            position: fixed;
 
-        font-size: 18px;
-        font-weight: bold;
+            inset: 0;
 
-        box-shadow: 0 0 12px rgba(216, 168, 78, 0.5);
-    }
+            background: rgba(0, 0, 0, 0.82);
+
+            z-index: 100;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup.show {
+            display: flex;
+        }
+
+        .popupBox {
+            width: min(520px, 80vw);
+
+            padding: 30px;
+
+            border: 2px solid #d8a84e;
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(55, 10, 10, 0.98),
+                    rgba(10, 5, 10, 0.98)
+                );
+
+            color: white;
+
+            text-align: center;
+
+            box-shadow:
+                0 0 30px rgba(255, 100, 30, 0.6);
+        }
+
+        .popupBox h2 {
+            margin-top: 0;
+
+            color: #ffd77a;
+        }
+
+        .popupBox button {
+            margin-top: 18px;
+
+            padding: 12px 28px;
+
+            border: 1px solid #d8a84e;
+            border-radius: 8px;
+
+            background: #481010;
+
+            color: white;
+
+            font-size: 17px;
+
+            cursor: pointer;
+        }
+
+
+        /* -------------------- */
+        /* ТАЙМЕР ТУРНИРА */
+        /* -------------------- */
+
+        #tournamentTimer {
+            font-size: 28px;
+
+            color: #ffbd60;
+
+            font-weight: bold;
+
+            margin-top: 15px;
+        }
+
+
+        /* -------------------- */
+        /* КНОПКА ДЛЯ ТЕСТА XP */
+        /* ПОТОМ УБЕРЕМ */
+        /* -------------------- */
+
+        #testXpButton {
+            position: absolute;
+
+            right: 1%;
+            bottom: 2%;
+
+            z-index: 30;
+
+            padding: 8px 12px;
+
+            background: rgba(0, 0, 0, 0.75);
+
+            color: white;
+
+            border: 1px solid #d8a84e;
+
+            border-radius: 6px;
+        }
+
+
+        /* -------------------- */
+        /* ПОВОРОТ ТЕЛЕФОНА */
+        /* -------------------- */
+
+        #rotateMessage {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: black;
+
+            color: white;
+
+            z-index: 500;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            font-size: 24px;
+
+            padding: 30px;
+        }
+
+        @media (orientation: portrait) {
+
+            #rotateMessage {
+                display: flex;
+            }
+
+        }
+
+#eventsButton {
+    position: absolute;
+
+    left: 14.5%;
+    top: 17.5%;
+
+    width: 17%;
+    height: 7%;
+
+    opacity: 0;
+    border: none;
+    cursor: pointer;
+
+    z-index: 50;
+}
+/* КНОПКА НАСТРОЕК — прозрачная зона поверх шестерёнки */
+#settingsButton {
+    position: absolute;
+
+    right: 0.7%;
+    top: 1.3%;
+
+    width: 5.2%;
+    height: 9%;
+
+    opacity: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    z-index: 50;
+}
+#eventsWindow {
+    display: none;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 70%;
+    max-width: 720px;
+    padding: 24px;
+
+    background: rgba(20, 15, 20, 0.98);
+    border: 2px solid #d99a3c;
+    border-radius: 18px;
+
+    color: white;
+    z-index: 10000;
+}
+
+#closeEvents {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+
+    background: transparent;
+    border: none;
+    color: white;
+
+    font-size: 24px;
+    cursor: pointer;
+}
+#inventoryButton {
+    position: absolute;
+    left: 12%;
+    top: 25%;
+    width: 18%;
+    height: 8%;
+
+    opacity: 0;
+    border: none;
+    cursor: pointer;
+    z-index: 50;
+}
+#inventoryWindow {
+    display: none;
+
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 70%;
+    max-width: 720px;
+    padding: 24px;
+
+    background: rgba(20, 15, 20, 0.98);
+    border: 2px solid #d99a3c;
+    border-radius: 18px;
+
+    color: white;
+    z-index: 10000;
+}
+
+#closeInventory {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+
+    background: transparent;
+    border: none;
+    color: white;
+
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#inventoryGrid {
+    display: grid;
+    grid-template-columns: repeat(8, 55px);
+    gap: 8px;
+
+    margin-top: 20px;
+    width: 100%;
+}
+
+.inventorySlot {
+    width: 55px;
+    height: 55px;
+
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(217, 154, 60, 0.7);
+    border-radius: 8px;
+
+    position: relative;
+}
+
+.inventorySlot {
+    aspect-ratio: 1 / 1;
+
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(217, 154, 60, 0.7);
+    border-radius: 10px;
+
+    position: relative;
+}
+
+.itemCount {
+    position: absolute;
+
+    right: 5px;
+    bottom: 3px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    color: white;
+}
     </style>
-    </head>
+</head>
+
+
 <body>
-    <img src="lobby.jpg.jpg">
-    <button onclick="alert('Рейды скоро откроется1')">Рейды</button>
+
+<!-- МУЗЫКА ANAX APP -->
+<audio id="gatesMusic" src="./music/gates.mp3" loop></audio>
+<audio id="lobbyMusic" src="music/lobby.mp3" loop></audio>
+<audio id="settingsMusic" src="music/settings.mp3" loop></audio>
+<audio id="shopMusic" src="music/shop.mp3" loop></audio>
+<div id="gatesScreen" class="screen">
+
+    <div class="petalsLayer" id="gatesPetals"></div>
+
+    <img src="gates.png" alt="Врата">
+
+
+    <!-- твои кнопки -->
+
+    <img src="gates.png" alt="Врата">
+
+    <button
+        id="gateStartButton"
+        onclick="showEnterButton()">
+        67
+    </button>
+
+    <button
+        id="enterButton"
+        onclick="enterLobby()"
+        style="display: none;">
+        ВОЙТИ
+    </button>
+
+</div>
+    <!-- ==================== -->
+    <!-- ЛОББИ -->
+    <!-- ==================== -->
+
+  <div id="lobbyScreen" class="screen">
+
+    <img src="lobby.png" alt="Лобби">
+
+    <!-- САКУРА ПОВЕРХ ЛОББИ -->
+    <div class="petalsLayer" id="lobbyPetals"></div>
+
+             <button id="eventsButton"
+        aria-label="События">
+</button>
+
+<button id="inventoryButton"
+        aria-label="Инвентарь">
+</button>
+
+<!-- НЕВИДИМАЯ КНОПКА НАСТРОЕК ПОВЕРХ ШЕСТЕРЁНКИ -->
+<button id="settingsButton" aria-label="Настройки"></button>
+
+<!-- ОКНО СОБЫТИЙ -->
+<div id="eventsWindow">
+
+    <button id="closeEvents">✕</button>
+
+    <h2>СОБЫТИЯ</h2>
+
+    <p>Здесь будут события клана</p>
+
+</div>
+<!-- ОКНО ИНВЕНТАРЯ -->
+<div id="inventoryWindow">
+
+    <button id="closeInventory">×</button>
+
+    <h2>ИНВЕНТАРЬ</h2>
+
+    <div id="inventoryGrid"></div>
+
+    <div id="inventoryGrid">
+        
+</div>
+
+</div>
+
+<!-- ЭКРАН НАСТРОЕК -->
+<div id="settingsWindow">
+
+<div class="petalsLayer" id="settingsPetals"></div>
+
+    <button id="closeSettings">← НАЗАД</button>
+
+    <div class="settingsPanel">
+        <h2>НАСТРОЙКИ</h2>
+
+        <div class="settingRow">
+            <span>🎵 Музыка</span>
+            <button class="settingToggle" id="musicToggle">ВКЛ</button>
+        </div>
+
+        <div class="settingRow">
+            <span>🔊 Звуки</span>
+            <button class="settingToggle" id="soundToggle">ВКЛ</button>
+        </div>
+
+        <div class="settingRow">
+            <span>🌸 Анимации</span>
+            <button class="settingToggle" id="animationToggle">ВКЛ</button>
+        </div>
+
+        <div class="settingRow volumeRow">
+            <span>Громкость</span>
+            <input
+                type="range"
+                id="volumeSlider"
+                min="0"
+                max="100"
+                value="50"
+            >
+        </div>
+    </div>
+
+</div>
+
+        <!-- АВАТАР -->
+         <div id="avatarFrame">
+    <img id="avatar" alt="АВАТАР">
+         </div>
+
+<input type="file"
+       id="avatarInput"
+       accept="image/*"
+
+
+    <!-- ПРОФИЛЬ ИГРОКА -->
+<div id="profileWindow">
+
+    <button id="closeProfile">✕</button>
+
+    <div id="profileTitle">
+        ПРОФИЛЬ
+    </div>
+
+    <div id="profileTop">
+
+        <div id="profileAvatarFrame">
+            <img id="profileAvatarImage"
+                 alt="Аватар">
+        </div>
+
+        <div id="profileStats">
+
+            <div class="profileStat">
+                Уровень:
+                <span id="profileLevelNumber">1</span>
+            </div>
+
+            <div class="profileStat">
+                Сложность:
+                <span id="profileDifficultyNumber">0</span>
+            </div>
+
+            <div id="difficultyBar">
+                <div id="difficultyFill"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="profileButtons">
+
+        <button id="openAvatars">
+            МОИ АВАТАРКИ
+        </button>
+
+        <button id="chooseCustomAvatar">
+            СВОЯ АВАТАРКА
+        </button>
+
+    </div>
+
+    <div id="avatarCollection">
+        <div class="profileSectionTitle">
+            МОИ АВАТАРКИ
+        </div>
+
+        <div id="avatarCollectionGrid">
+
+            <div class="avatarSlot">
+                <img id="savedAvatarPreview"
+                     alt="Моя аватарка">
+            </div>
+
+            <div class="avatarSlot lockedAvatar">
+                ?
+            </div>
+
+            <div class="avatarSlot lockedAvatar">
+                ?
+            </div>
+
+            <div class="avatarSlot lockedAvatar">
+                ?
+            </div>
+
+        </div>
+    </div>
+
+    <div id="profileMedals">
+
+        <div class="profileSectionTitle">
+            МЕДАЛИ БОССОВ
+        </div>
+
+        <div id="medalGrid">
+            <div class="medalSlot">1</div>
+            <div class="medalSlot">2</div>
+            <div class="medalSlot">3</div>
+            <div class="medalSlot">4</div>
+            <div class="medalSlot">5</div>
+        </div>
+
+    </div>
+
+</div>
+        <!-- УРОВЕНЬ -->
+
+<div id="levelLabel">
+    Ур.
+</div>
+
+<div id="levelNumber">
+    5
+</div>
+
+<!-- ОПЫТ -->
+
+<div id="xpBar" onclick="showXpInfo()">
+    <div id="xpFill"></div>
+</div>
+
+
+        <!-- СЭНЫ -->
+
+        <div id="senAmount">
+            2500
+        </div>
+
+        <!-- КРЕДИТЫ -->
+<div id="creditAmount">
+    0
+</div>
+
+        <!-- АСТРАЛЫ -->
+
+        <div id="astralAmount">
+            15
+        </div>
+
+
+        <!-- ТУРНИР -->
+
+        <button id="tournamentButton"
+                onclick="openTournament()"
+                aria-label="Турнир гильдии">
+        </button>
+
+
+        <!-- ВРЕМЕННАЯ КНОПКА -->
+        <!-- ДЛЯ ПРОВЕРКИ УРОВНЕЙ -->
+
+        <button id="testXpButton"
+        onclick="addXp(5000000)">
+    +5000000 XP ТЕСТ
+</button>
+
+<button onclick="addDifficulty(50)">
+    +50 СЛОЖНОСТИ
+</button>
+
+    </div>
+
+
+
+    <!-- ==================== -->
+    <!-- ВСПЫШКА -->
+    <!-- ==================== -->
+
+    <div id="flash"></div>
+
+
+
+    <!-- ==================== -->
+    <!-- НОВЫЙ УРОВЕНЬ -->
+    <!-- ==================== -->
+
+    <div id="levelPopup"
+         class="popup">
+
+        <div class="popupBox">
+
+            <h2>
+                НОВЫЙ УРОВЕНЬ!
+            </h2>
+
+            <p id="levelMessage">
+            </p>
+
+            <p>
+                Награда:
+                +500 Сэнов
+                и +5 Астралов
+            </p>
+
+            <button onclick="closeLevelPopup()">
+
+                ЗАБРАТЬ
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================== -->
+    <!-- ТУРНИР ЗАКРЫТ -->
+    <!-- ==================== -->
+
+    <div id="tournamentClosedPopup"
+         class="popup">
+
+        <div class="popupBox">
+
+            <h2>
+                ТУРНИР ГИЛЬДИИ
+            </h2>
+
+            <p>
+                Сейчас турнир закрыт.
+            </p>
+
+            <p id="nextTournamentText">
+            </p>
+
+            <button onclick="closeTournamentClosed()">
+
+                НАЗАД
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================== -->
+    <!-- ТУРНИР ОТКРЫТ -->
+    <!-- ==================== -->
+
+    <div id="tournamentOpenPopup"
+         class="popup">
+
+        <div class="popupBox">
+
+            <h2>
+                ТУРНИР ГИЛЬДИИ ОТКРЫТ
+            </h2>
+
+            <p>
+                Турнир закончится через:
+            </p>
+
+            <div id="tournamentTimer">
+                00:00:00
+            </div>
+
+            <button onclick="closeTournamentOpen()">
+
+                ВОЙТИ В ТУРНИР
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ==================== -->
+    <!-- ПОВЕРНИ ТЕЛЕФОН -->
+    <!-- ==================== -->
+
+    <!-- ==================== -->
+<!-- ИНФОРМАЦИЯ ОБ ОПЫТЕ -->
+<!-- ==================== -->
+
+<div id="xpInfoPopup"
+     class="popup">
+
+    <div class="popupBox">
+
+        <h2 id="xpInfoTitle">
+            ОПЫТ
+        </h2>
+
+        <p id="xpInfoCurrent">
+        </p>
+
+        <p id="xpInfoRemaining">
+        </p>
+
+        <button onclick="closeXpInfo()">
+            ЗАКРЫТЬ
+        </button>
+
+    </div>
+
+</div>
+
+    <div id="rotateMessage">
+
+        Поверните телефон горизонтально
+
+    </div>
+
+
+
+    <script>
+
+
+        /* ==================== */
+        /* ДАННЫЕ ИГРОКА */
+        /* ==================== */
+
+        let level =
+            Number(localStorage.getItem("level")) || 1;
+
+        let xp =
+            Number(localStorage.getItem("xp")) || 0;
+
+        let sen =
+            Number(localStorage.getItem("sen")) || 3500;
+
+        let astrals =
+            Number(localStorage.getItem("astrals")) || 30;
+
+            credits =
+            Number(localStorage.getItem("credits"))|| 0;
+
+        const MAX_LEVEL = 52;
+const TOTAL_XP_TO_MAX = 100000000;
+
+function getTotalXpForLevel(level) {
+
+    const progress =
+        (level - 1) / (MAX_LEVEL - 1);
+
+    return Math.floor(
+        TOTAL_XP_TO_MAX *
+        progress *
+        progress *
+        progress
+    );
+}
+
+function getXpNeeded(level) {
+
+    if (level >= MAX_LEVEL) {
+        return 0;
+    }
+
+    return (
+        getTotalXpForLevel(level + 1)
+        -
+        getTotalXpForLevel(level)
+    );
+}
+
+
+
+        /* ==================== */
+        /* ОБНОВЛЯЕМ ЭКРАН */
+        /* ==================== */
+
+        function updatePlayerUI() {
+
+    document.getElementById("senAmount")
+        .textContent = sen;
+
+document.getElementById("creditAmount")
+    .textContent = credits;
+
+    document.getElementById("astralAmount")
+        .textContent = astrals;
+
+
+    if (level >= MAX_LEVEL) {
+
+        document.getElementById("levelNumber")
+            .textContent = "52 MAX";
+
+        document.getElementById("xpFill")
+            .style.width = "100%";
+
+        return;
+    }
+
+document.getElementById("levelNumber").textContent = level;
+    const profileLevelNumber =
+    document.getElementById("profileLevelNumber");
+
+if (profileLevelNumber) {
+    profileLevelNumber.textContent = level;
+}
+
+
+    const xpNeeded =
+        getXpNeeded(level);
+
+
+    const xpPercent =
+        (xp / xpNeeded) * 100;
+
+
+    document.getElementById("xpFill")
+        .style.width =
+        xpPercent + "%";
+}
+
+
+
+        /* ==================== */
+        /* СОХРАНЕНИЕ */
+        /* ==================== */
+
+        function savePlayer() {localStorage.setItem(
+                "level",
+                level
+            );
+
+            localStorage.setItem(
+                "xp",
+                xp
+            );
+
+            localStorage.setItem(
+                "sen",
+                sen
+            );
+
+            localStorage.setItem(
+                "astrals",
+                astrals
+            );
+
+        }
+
+
+
+        /* ==================== */
+        /* ВХОД */
+        /* ==================== */
+function showEnterButton() {
+
+    changeMusic(gatesMusic, 800);
+
+    const firstButton =
+        document.getElementById("gateStartButton");
+
+    const enterButton =
+        document.getElementById("enterButton");
+
+    firstButton.style.display = "none";
+    enterButton.style.display = "block";
+}
+        function enterLobby() {
+
+changeMusic(lobbyMusic, 1200);
+            const gates =
+                document.getElementById(
+                    "gatesScreen"
+                );
+
+            const lobby =
+                document.getElementById(
+                    "lobbyScreen"
+                );
+
+            const flash =
+                document.getElementById(
+                    "flash"
+                );
+
+
+            document.getElementById(
+                "enterButton"
+            ).style.display = "none";
+
+
+            flash.classList.add(
+                "active"
+            );
+
+
+            setTimeout(function () {
+
+                gates.style.display =
+                    "none";
+
+                lobby.style.display =
+                    "block";
+
+
+                setTimeout(function () {
+
+                    lobby.classList.add(
+                        "show"
+                    );
+
+                    flash.classList.remove(
+                        "active"
+                    );
+
+                }, 100);
+
+            }, 700);
+
+        }
+
+
+
+        /* ==================== */
+        /* АВАТАР */
+        /* ==================== */
+
+        const avatar =
+            document.getElementById(
+                "avatar"
+            );
+
+        const avatarInput =
+            document.getElementById(
+                "avatarInput"
+            );
+
+
+        function chooseAvatar() {
+
+            avatarInput.click();
+
+        }
+
+
+        avatarInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        const imageData =
+                            event.target.result;
+
+
+                        avatar.src =
+                            imageData;
+
+
+                        localStorage.setItem(
+                            "avatar",
+                            imageData
+                        );
+
+                    };
+
+
+                reader.readAsDataURL(
+                    file
+                );
+
+            }
+        );
+
+
+        const savedAvatar =
+            localStorage.getItem(
+                "avatar"
+            );
+
+
+        if (savedAvatar) {
+
+            avatar.src =
+                savedAvatar;
+
+        }
+
+
+
+        /* ==================== */
+        /* ОПЫТ */
+        /* ==================== */
+
+/* ==================== */
+/* НАГРАДА ЗА УРОВЕНЬ */
+/* ==================== */
+
+function giveLevelReward(level) {
+
+    const senReward =
+        Math.floor(
+            500 +
+            ((level - 2) / 50) * 999500
+        );
+
+    sen += senReward;
+
+
+    if (level % 10 === 0) {
+        astrals += 10;
+    } else {
+        astrals += 5;
+    }
+
+
+    if (level >= 42) {
+        credits += 100;
+    }
+}
+
+        function addXp(amount) {
+            /* ==================== */
+/* АВАТАР */
+/* ==================== */
+
+function chooseAvatar() {
+
+    document.getElementById("avatarInput")
+        .click();
+}
+
+
+document.getElementById("avatarInput")
+    .addEventListener("change", function(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            const avatar =
+                document.getElementById("avatar");
+
+            avatar.src = e.target.result;
+
+            localStorage.setItem(
+                "playerAvatar",
+                e.target.result
+            );
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+const savedAvatar =
+    localStorage.getItem("playerAvatar");
+
+if (savedAvatar) {
+
+    document.getElementById("avatar")
+        .src = savedAvatar;
+}
+
+    if (level >= MAX_LEVEL) {
+        return;
+    }
+
+
+    xp += amount;
+
+
+    let xpNeeded =
+        getXpNeeded(level);
+
+
+    while (
+        xp >= xpNeeded &&
+        level < MAX_LEVEL
+    ) {
+
+        xp -= xpNeeded;
+
+        level += 1;
+
+
+        /* НАГРАДА ЗА УРОВЕНЬ */
+
+        sen += 500;
+
+        astrals += 5;
+
+
+        if (level >= MAX_LEVEL) {
+
+            level = MAX_LEVEL;
+
+            xp = 0;
+
+            document.getElementById(
+                "levelMessage"
+            ).textContent =
+                "Поздравляем! Достигнут максимальный 52 уровень!";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "levelMessage"
+            ).textContent =
+                "Поздравляем! Теперь у вас "
+                + level
+                + " уровень.";
+
+        }
+
+
+        document.getElementById(
+            "levelPopup"
+        ).classList.add(
+            "show"
+        );
+
+
+        xpNeeded =
+            getXpNeeded(level);
+    }
+
+
+    savePlayer();
+
+    updatePlayerUI();
+}
+
+
+
+        function closeLevelPopup() {
+
+            document.getElementById(
+                "levelPopup"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+
+        /* ==================== */
+        /* ТУРНИР */
+        /* ==================== */
+
+        let tournamentInterval;function isTournamentOpen() {
+
+            const now =
+                new Date();
+
+
+            /*
+                getDay():
+
+                0 = воскресенье
+                1 = понедельник
+                2 = вторник
+                3 = среда
+                4 = четверг
+                5 = пятница
+                6 = суббота
+            */
+
+
+            const day =
+                now.getDay();
+
+            const hour =
+                now.getHours();
+
+
+            /*
+                ПОКА:
+
+                СУББОТА
+                19:00 - 23:00
+            */
+
+
+            return (
+                day === 6
+                &&
+                hour >= 19
+                &&
+                hour < 23
+            );
+
+        }
+
+
+
+        function openTournament() {
+
+            if (isTournamentOpen()) {
+
+                document.getElementById(
+                    "tournamentOpenPopup"
+                ).classList.add(
+                    "show"
+                );
+
+
+                updateTournamentTimer();
+
+
+                tournamentInterval =
+                    setInterval(
+                        updateTournamentTimer,
+                        1000
+                    );
+
+            }
+
+            else {
+
+                document.getElementById(
+                    "nextTournamentText"
+                ).textContent =
+                    "Доступ откроется в субботу в 19:00.";
+
+
+                document.getElementById(
+                    "tournamentClosedPopup"
+                ).classList.add(
+                    "show"
+                );
+
+            }
+
+        }
+
+
+
+        /* ==================== */
+        /* ТАЙМЕР ТУРНИРА */
+        /* ==================== */
+
+        function updateTournamentTimer() {
+
+            const now =
+                new Date();
+
+
+            const tournamentEnd =
+                new Date();
+
+
+            tournamentEnd.setHours(
+                23,
+                0,
+                0,
+                0
+            );
+
+
+            const difference =
+                tournamentEnd - now;
+
+
+            if (difference <= 0) {
+
+                clearInterval(
+                    tournamentInterval
+                );
+
+
+                closeTournamentOpen();
+
+
+                document.getElementById(
+                    "tournamentClosedPopup"
+                ).classList.add(
+                    "show"
+                );
+
+
+                return;
+
+            }
+
+
+            const hours =
+                Math.floor(
+                    difference /
+                    1000 /
+                    60 /
+                    60
+                );
+
+
+            const minutes =
+                Math.floor(
+                    difference /
+                    1000 /
+                    60
+                ) % 60;
+
+
+            const seconds =
+                Math.floor(
+                    difference /
+                    1000
+                ) % 60;
+
+
+            document.getElementById(
+                "tournamentTimer"
+            ).textContent =
+
+                String(hours)
+                    .padStart(2, "0")
+                + ":"
+                +
+                String(minutes)
+                    .padStart(2, "0")
+                + ":"
+                +
+                String(seconds)
+                    .padStart(2, "0");
+
+        }
+
+
+
+        function closeTournamentClosed() {
+
+            document.getElementById(
+                "tournamentClosedPopup"
+            ).classList.remove(
+                "show"
+            );
+
+        }
+
+
+
+        function closeTournamentOpen() {
+
+            document.getElementById(
+                "tournamentOpenPopup"
+            ).classList.remove(
+                "show"
+            );
+
+
+            clearInterval(
+                tournamentInterval
+            );
+        }
+          /* ==================== */
+/* ОКНО ОПЫТА */
+/* ==================== */
+
+function showXpInfo() {
+
+    const popup =
+        document.getElementById("xpInfoPopup");
+
+    const title =
+        document.getElementById("xpInfoTitle");
+
+    const current =
+        document.getElementById("xpInfoCurrent");
+
+    const remaining =
+        document.getElementById("xpInfoRemaining");
+
+
+    if (level >= 52) {
+
+        title.textContent =
+            "52 MAX";
+
+        current.textContent =
+            "Максимальный уровень достигнут.";
+
+        remaining.textContent =
+            "Полоса опыта заполнена полностью.";
+
+    } else {
+
+        const needed =
+            getXpNeeded(level);
+
+        const left =
+            Math.max(0, needed - xp);
+
+
+        title.textContent =
+            "УРОВЕНЬ " + level;
+
+        current.textContent =
+            "Опыт: "
+            + xp.toLocaleString("ru-RU")
+            + " / "
+            + needed.toLocaleString("ru-RU")
+            + " XP";
+
+        remaining.textContent =
+            "До следующего уровня: "
+            + left.toLocaleString("ru-RU")
+            + " XP";
+    }
+
+
+    popup.classList.add("show");
+}
+
+
+function closeXpInfo() {
+
+    document.getElementById("xpInfoPopup")
+        .classList.remove("show");
+}
+            /*===== */
+
+/* ПЕРВЫЙ ЗАПУСК */
+
+updatePlayerUI();
+
+function chooseAvatar() {
+    document.getElementById("avatarInput").click();
+}
+
+document.getElementById("avatarInput").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const avatar = document.getElementById("avatar");
+
+        avatar.src = e.target.result;
+
+        localStorage.setItem(
+            "playerAvatar",
+            e.target.result
+        );
+    };
+
+    reader.readAsDataURL(file);
+});
+
+// ======================
+// ПРОФИЛЬ ИГРОКА
+// ======================
+
+const avatarButton = document.getElementById("avatar");
+const profileWindow = document.getElementById("profileWindow");
+const closeProfileButton = document.getElementById("closeProfile");
+const customAvatarButton = document.getElementById("chooseCustomAvatar");
+const avatarInputElement = document.getElementById("avatarInput");
+
+avatarButton.onclick = function() {
+
+    // УРОВЕНЬ
+    const lobbyLevel =
+        document.getElementById("levelNumber").textContent;
+
+    document.getElementById("profileLevelNumber").textContent =
+        lobbyLevel;
+
+    // АВАТАР
+    const lobbyAvatar =
+        document.getElementById("avatar").src;
+
+    document.getElementById("profileAvatarImage").src =
+        lobbyAvatar;
+
+    const preview =
+        document.getElementById("savedAvatarPreview");
+
+    if (preview) {
+        preview.src = lobbyAvatar;
+    }
+
+    // ОТКРЫТЬ ПРОФИЛЬ
+    profileWindow.style.display = "block";
+};
+
+
+// ЗАКРЫТЬ ПРОФИЛЬ
+closeProfileButton.onclick = function() {
+    profileWindow.style.display = "none";
+};
+
+
+// СВОЯ АВАТАРКА
+customAvatarButton.onclick = function() {
+    avatarInputElement.click();
+};
+
+// ======================
+// СЛОЖНОСТИ
+// ======================
+
+function addDifficulty(amount) {
+    difficulty += amount;
+
+    localStorage.setItem(
+        "difficulty",
+        difficulty
+    );
+
+    updateDifficultyUI();
+}
+
+
+
+function updateDifficultyUI() {
+
+    if (difficulty < 0) {
+        difficulty = 0;
+    }
+
+    if (difficulty > 450) {
+        difficulty = 450;
+    }
+
+    document.getElementById("profileDifficultyNumber")
+        .textContent = difficulty;
+
+    const difficultyFill =
+        document.getElementById("difficultyFill");
+
+    const percent =
+        (difficulty / 450) * 100;
+
+    difficultyFill.style.width =
+        percent + "%";
+
+
+    if (difficulty <= 90) {
+
+        difficultyFill.style.background =
+            "linear-gradient(90deg, #1f8f3a, #62d66f)";
+
+    } else if (difficulty <= 180) {
+
+        difficultyFill.style.background =
+            "linear-gradient(90deg, #b8860b, #ffd95a)";
+
+    } else if (difficulty <= 270) {
+
+        difficultyFill.style.background =
+            "linear-gradient(90deg, #c85a16, #ff9b3d)";
+
+    } else if (difficulty <= 360) {
+
+        difficultyFill.style.background =
+            "linear-gradient(90deg, #981f24, #ff4b4b)";
+
+    } else {
+    }
+
+}
+let difficulty =
+    Number(localStorage.getItem("difficulty")) || 0; 
+
+function addDifficulty(amount) {
+    difficulty += amount;
+    updateDifficultyUI();
+}
+
+updateDifficultyUI();
+
+document.getElementById("eventsButton").onclick = function() {
+    document.getElementById("eventsWindow").style.display = "block";
+};
+
+document.getElementById("closeEvents").onclick = function() {
+    document.getElementById("eventsWindow").style.display = "none";
+};
+
+document.getElementById("inventoryButton").onclick = function() {
+    document.getElementById("inventoryWindow").style.display = "block";
+};
+
+document.getElementById("closeInventory").onclick = function() {
+    document.getElementById("inventoryWindow").style.display = "none";
+};
+const inventoryGrid = document.getElementById("inventoryGrid");
+
+const INVENTORY_SLOTS = 31;
+
+for (let i = 0; i < INVENTORY_SLOTS; i++) {
+    const slot = document.createElement("div");
+
+    slot.className = "inventorySlot";
+    slot.dataset.slot = i;
+
+    inventoryGrid.appendChild(slot);
+}
+
+// =========================
+// НАСТРОЙКИ
+// =========================
+
+
+document.getElementById("settingsButton").onclick = function() {
+
+    document
+        .getElementById("settingsWindow")
+        .classList.add("show");
+
+    changeMusic(settingsMusic, 900);
+};
+
+document.getElementById("closeSettings").onclick = function() {
+
+    document
+        .getElementById("settingsWindow")
+        .classList.remove("show");
+
+    changeMusic(lobbyMusic, 900);
+};
+
+// =========================
+// МУЗЫКА ANAX APP
+// =========================
+
+const gatesMusic = document.getElementById("gatesMusic");
+const lobbyMusic = document.getElementById("lobbyMusic");
+const settingsMusic = document.getElementById("settingsMusic");
+const shopMusic = document.getElementById("shopMusic");
+
+const allMusic = [
+    gatesMusic,
+    lobbyMusic,
+    settingsMusic,
+    shopMusic
+];
+
+let currentMusic = null;
+let musicVolume = 0.5;
+
+
+// ПЛАВНОЕ ЗАТУХАНИЕ
+function fadeOut(track, duration = 1000) {
+
+    if (!track || track.paused) return;
+
+    const startVolume = track.volume;
+    const steps = 25;
+    const stepTime = duration / steps;
+
+    let step = 0;
+
+    const fade = setInterval(() => {
+
+        step++;
+
+        track.volume = Math.max(
+            0,
+            startVolume * (1 - step / steps)
+        );
+
+        if (step >= steps) {
+
+            clearInterval(fade);
+
+            track.pause();
+    
+
+            track.volume = musicVolume;
+        }
+
+    }, stepTime);
+}
+
+
+// ПЛАВНОЕ ПОЯВЛЕНИЕ
+function fadeIn(track, duration = 1000) {
+
+    track.volume = 0;
+
+    track.play().catch(error => {
+        console.log("Музыка ждёт первого действия пользователя:", error);
+    });
+
+    const steps = 25;
+    const stepTime = duration / steps;
+
+    let step = 0;
+
+    const fade = setInterval(() => {
+
+        step++;
+
+        track.volume = Math.min(
+            musicVolume,
+            musicVolume * (step / steps)
+        );
+
+        if (step >= steps) {
+
+            clearInterval(fade);
+
+            track.volume = musicVolume;
+        }
+
+    }, stepTime);
+}
+
+
+// ПЕРЕКЛЮЧЕНИЕ МУЗЫКИ
+function changeMusic(newTrack, duration = 1000) {
+
+    const oldMusic = currentMusic;
+
+    currentMusic = newTrack;
+
+    if (oldMusic && oldMusic !== newTrack) {
+        fadeOut(oldMusic, duration);
+    }
+
+    if (!musicEnabled) {
+        return;
+    }
+
+    if (oldMusic === newTrack && !newTrack.paused) {
+        return;
+    }
+
+    setTimeout(() => {
+        fadeIn(newTrack, duration);
+    }, oldMusic ? duration * 0.35 : 0);
+}
+// =========================
+// МУЗЫКА ВОРОТ
+// =========================
+
+let audioUnlocked = false;
+
+document.getElementById("gatesScreen").addEventListener(
+    "pointerdown",
+    function () {
+
+        if (audioUnlocked) return;
+
+        audioUnlocked = true;
+
+        changeMusic(gatesMusic, 800);
+    },
+    { once: true }
+);
+
+// =========================
+// НАСТРОЙКИ МУЗЫКИ / ЗВУКА / АНИМАЦИЙ
+// =========================
+
+const musicToggle =
+    document.getElementById("musicToggle");
+
+const soundToggle =
+    document.getElementById("soundToggle");
+
+const animationToggle =
+    document.getElementById("animationToggle");
+
+const volumeSlider =
+    document.getElementById("volumeSlider");
+
+
+let musicEnabled = true;
+let soundEnabled = true;
+let animationsEnabled = true;
+
+
+// -------------------------
+// ГРОМКОСТЬ
+// -------------------------
+
+volumeSlider.value = Math.round(musicVolume * 100);
+
+volumeSlider.addEventListener("input", function () {
+
+    musicVolume = Number(this.value) / 100;
+
+    allMusic.forEach(track => {
+        track.volume = musicVolume;
+    });
+});
+
+
+// -------------------------
+// МУЗЫКА ВКЛ / ВЫКЛ
+// -------------------------
+
+musicToggle.onclick = function () {
+
+    musicEnabled = !musicEnabled;
+
+    if (musicEnabled) {
+
+        musicToggle.textContent = "ВКЛ";
+
+        if (currentMusic) {
+            fadeIn(currentMusic, 600);
+        }
+
+    } else {
+
+        musicToggle.textContent = "ВЫКЛ";
+
+        if (currentMusic) {
+            fadeOut(currentMusic, 600);
+        }
+    }
+};
+
+
+// -------------------------
+// ЗВУКИ ВКЛ / ВЫКЛ
+// -------------------------
+
+soundToggle.onclick = function () {
+
+    soundEnabled = !soundEnabled;
+
+    soundToggle.textContent =
+        soundEnabled ? "ВКЛ" : "ВЫКЛ";
+};
+
+
+// -------------------------
+// АНИМАЦИИ ВКЛ / ВЫКЛ
+// -------------------------
+
+animationToggle.onclick = function () {
+
+    animationsEnabled = !animationsEnabled;
+
+    animationToggle.textContent =
+        animationsEnabled ? "ВКЛ" : "ВЫКЛ";
+
+    document.body.classList.toggle(
+        "animationsOff",
+        !animationsEnabled
+    );
+};
+
+// =========================
+// САКУРА
+// =========================
+
+function createPetal(layer) {
+
+    if (!animationsEnabled) return;
+
+    const petal =
+        document.createElement("div");
+
+    petal.className = "petal";
+
+    petal.style.left =
+        Math.random() * 100 + "%";
+
+    petal.style.width =
+        8 + Math.random() * 10 + "px";
+
+    petal.style.height =
+        5 + Math.random() * 7 + "px";
+
+    petal.style.animationDuration =
+        5 + Math.random() * 6 + "s";
+
+    petal.style.setProperty(
+        "--wind",
+        (-100 + Math.random() * 200) + "px"
+    );
+
+    layer.appendChild(petal);
+
+    petal.addEventListener(
+        "animationend",
+        () => petal.remove()
+    );
+}
+
+
+function startPetals(layerId, interval) {
+
+    const layer =
+        document.getElementById(layerId);
+
+    setInterval(() => {
+
+        if (!animationsEnabled) return;
+
+        createPetal(layer);
+
+    }, interval);
+}
+
+
+startPetals("gatesPetals", 500);
+startPetals("lobbyPetals", 250);
+startPetals("settingsPetals", 700);
+</script>
+
 </body>
+
 </html>
